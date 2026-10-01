@@ -1,0 +1,562 @@
+@font-face {
+  font-family: "Digital Dot Roadsign";
+  src: url("assets/wip/DigitalDotRoadsign.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+}
+
+:root {
+  color-scheme: light;
+  --cream: #fffaeb;
+  --black: #0d0d0d;
+  --yellow: #ffcb22;
+  --page-background: var(--cream);
+  --pill-outline: transparent;
+  --toggle-track: var(--black);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --page-background: var(--black);
+  --pill-outline: var(--yellow);
+  --toggle-track: #1e1e1e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--page-background);
+  transition: background-color 350ms ease;
+}
+
+body,
+button,
+a {
+  font-family: "Digital Dot Roadsign", monospace;
+}
+
+.scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--page-background);
+  transition: background-color 350ms ease;
+}
+
+.navbar {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 312px 1fr;
+  align-items: center;
+  width: calc(100% - 48px);
+  height: 56px;
+}
+
+.nav-pill {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  border: 0;
+  border-radius: 100px;
+  background: var(--black);
+  box-shadow: inset 0 0 0 4px var(--pill-outline);
+  color: var(--cream);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 350ms ease, border-color 350ms ease, color 350ms ease, box-shadow 350ms ease;
+}
+
+.back {
+  justify-self: start;
+  gap: 16px;
+  padding: 12px 32px 12px 12px;
+  transition: box-shadow 350ms ease, background-color 180ms ease, color 180ms ease;
+}
+
+.back:hover {
+  background-color: var(--yellow);
+  color: var(--black);
+}
+
+.back-arrow {
+  display: block;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  overflow: hidden;
+  border-radius: 50%;
+  background-color: var(--yellow);
+  color: var(--black);
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.back-arrow-glyph {
+  display: block;
+  width: 32px;
+  height: 32px;
+  transition: transform 120ms ease-out;
+}
+
+.back:hover .back-arrow {
+  background-color: var(--black);
+  color: var(--yellow);
+}
+
+.back:hover .back-arrow-glyph {
+  animation: back-arrow-travel 1400ms ease-in-out infinite;
+}
+
+.nameplate {
+  position: relative;
+  width: 312px;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--yellow);
+  text-align: center;
+}
+
+.nameplate:hover {
+  background-color: var(--yellow);
+}
+
+.nameplate:hover .brand-label {
+  visibility: hidden;
+}
+
+.nameplate:hover .brand-word {
+  color: var(--black) !important;
+  animation-play-state: paused;
+}
+
+.brand-ticker {
+  position: absolute;
+  inset: 0;
+  display: none;
+  width: 624px;
+  align-items: center;
+  color: var(--black);
+  white-space: nowrap;
+}
+
+.brand-ticker > span {
+  width: 312px;
+  flex: 0 0 312px;
+  transform: translateY(-2px);
+}
+
+.nameplate:hover .brand-ticker {
+  display: flex;
+  animation: brand-ticker-scroll 6s linear infinite;
+}
+
+.brand-word {
+  color: var(--yellow);
+  animation-duration: 1410ms;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.brand-hazim {
+  animation-name: highlight-hazim;
+}
+
+.brand-maqbool {
+  animation-name: highlight-maqbool;
+}
+
+.brand-design {
+  animation-name: highlight-design;
+}
+
+.theme-toggle {
+  --toggle-hover-symbol: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='12 12 32 32'%3E%3Cpath d='M28 40C24.6444 40 21.8058 38.8387 19.484 36.516C17.1622 34.1933 16.0009 31.3547 16 28C16 24.9333 17 22.272 19 20.016C21 17.76 23.5556 16.4436 26.6667 16.0667C26.9556 16.0222 27.2111 16.0613 27.4333 16.184C27.6556 16.3067 27.8333 16.4676 27.9667 16.6667C28.1 16.8658 28.1724 17.0991 28.184 17.3667C28.1956 17.6342 28.112 17.8898 27.9333 18.1333C27.5556 18.7111 27.272 19.3222 27.0827 19.9667C26.8933 20.6111 26.7991 21.2889 26.8 22C26.8 24 27.5 25.7 28.9 27.1C30.3 28.5 32 29.2 34 29.2C34.6889 29.2 35.3724 29.1 36.0507 28.9C36.7289 28.7 37.3342 28.4222 37.8667 28.0667C38.1111 27.9111 38.3613 27.8391 38.6173 27.8507C38.8733 27.8622 39.1009 27.9231 39.3 28.0333C39.5222 28.1444 39.6947 28.3111 39.8173 28.5333C39.94 28.7556 39.9787 29.0222 39.9333 29.3333C39.6222 32.4 38.3169 34.9444 36.0173 36.9667C33.7178 38.9889 31.0453 40 28 40Z' fill='black'/%3E%3C/svg%3E");
+  position: relative;
+  display: block;
+  width: 112px;
+  height: 56px;
+  flex: 0 0 112px;
+  padding: 0;
+  border: 0;
+  border-radius: 28px;
+  overflow: hidden;
+  background-color: var(--toggle-track);
+  box-shadow: inset 0 0 0 4px var(--pill-outline);
+  cursor: pointer;
+  transition: background-color 350ms ease, border-color 350ms ease, box-shadow 350ms ease;
+}
+
+.theme-toggle::before {
+  display: none;
+}
+
+.theme-toggle::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  left: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--cream);
+  transform: translateX(56px);
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1), background-color 200ms ease;
+}
+
+html[data-theme="dark"] .theme-toggle::after {
+  transform: translateX(0);
+}
+
+html[data-theme="dark"] .theme-toggle {
+  --toggle-hover-symbol: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='7' fill='black'/%3E%3Cg fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M16 2v4M16 26v4M2 16h4M26 16h4M6.1 6.1l2.8 2.8M23.1 23.1l2.8 2.8M25.9 6.1l-2.8 2.8M8.9 23.1l-2.8 2.8'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+html[data-theme="dark"] .theme-toggle::before {
+  right: 12px;
+  left: auto;
+}
+
+.theme-toggle:focus {
+  outline: none;
+}
+
+.toggle-asset {
+  position: absolute;
+  display: none;
+  transition: opacity 350ms ease;
+}
+
+.toggle-symbol {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  width: 32px;
+  height: 32px;
+  color: var(--yellow);
+  transition: opacity 350ms ease, color 200ms ease;
+}
+
+.toggle-moon {
+  left: 12px;
+}
+
+.toggle-sun {
+  right: 12px;
+  opacity: 0;
+}
+
+html[data-theme="dark"] .toggle-moon {
+  opacity: 0;
+}
+
+html[data-theme="dark"] .toggle-sun {
+  opacity: 1;
+}
+
+.theme-toggle:hover .toggle-symbol {
+  color: var(--black);
+}
+
+.theme-toggle:hover {
+  background-color: var(--yellow);
+  transition-duration: 200ms, 350ms, 350ms;
+}
+
+.theme-toggle:hover::after {
+  background-color: var(--black);
+}
+
+.toggle-asset-light {
+  inset: 0;
+  width: 112px;
+  height: 56px;
+  mask-image: radial-gradient(circle at 75% 50%, transparent 16px, black 16.5px);
+}
+
+.toggle-asset-dark {
+  top: -2px;
+  left: -2px;
+  width: 116px;
+  height: 60px;
+  opacity: 0;
+  mask-image: radial-gradient(circle at 25.862% 50%, transparent 16px, black 16.5px);
+}
+
+.nav-actions {
+  display: flex;
+  justify-self: end;
+  align-items: center;
+  gap: 12px;
+}
+
+.surprise {
+  gap: 16px;
+  padding: 12px 12px 12px 32px;
+  transition: box-shadow 350ms ease, background-color 180ms ease, color 180ms ease;
+}
+
+.surprise:hover {
+  background-color: var(--yellow);
+  color: var(--black);
+}
+
+.surprise-arrow {
+  display: block;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border-radius: 50%;
+  background-color: var(--yellow);
+  color: var(--black);
+  transform: rotate(180deg);
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease-out;
+}
+
+.surprise-arrow-glyph {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+.surprise:hover .surprise-arrow {
+  background-color: var(--black);
+  color: var(--yellow);
+  animation: surprise-arrow-spin 1400ms linear infinite;
+}
+
+.back > span:last-child,
+.surprise > span:first-child,
+.nameplate .brand-label {
+  transform: translateY(-2px);
+}
+
+.roadworks {
+  position: absolute;
+  top: calc(clamp(102px, 17vh, 180px) + 24px);
+  left: 50%;
+  width: min(596px, 75vh, calc(100vw - 48px));
+  aspect-ratio: 596 / 524;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.wip-art {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: opacity 300ms ease;
+}
+
+.theme-visual-dark {
+  opacity: 0;
+}
+
+html[data-theme="dark"] .theme-visual-light,
+html[data-theme="dark"] .toggle-asset-light {
+  opacity: 0;
+}
+
+html[data-theme="dark"] .theme-visual-dark,
+html[data-theme="dark"] .toggle-asset-dark {
+  opacity: 1;
+}
+
+.warning-overlay {
+  position: absolute;
+  top: 24.332%;
+  width: 6.04%;
+  aspect-ratio: 1;
+}
+
+.warning-overlay-left {
+  left: 17.114%;
+}
+
+.warning-overlay-right {
+  left: 76.762%;
+}
+
+.warning-overlay .light-state,
+.warning-overlay img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.warning-overlay img {
+  transition: opacity 300ms ease;
+}
+
+.warning-overlay-left > .light-bright {
+  animation: left-warning-light 1460ms linear infinite;
+}
+
+.warning-overlay-right > .light-bright {
+  animation: right-warning-light 1460ms linear infinite;
+}
+
+.calendar-hotspot {
+  position: absolute;
+  top: 33.493%;
+  left: 0;
+  width: 100%;
+  height: 46.947%;
+  border-radius: 3%;
+  background-color: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background-color 160ms ease;
+}
+
+.calendar-hotspot:hover {
+  background-color: rgba(255, 255, 255, 0.035);
+}
+
+@keyframes left-warning-light {
+  0%,
+  37.67% {
+    opacity: 1;
+  }
+
+  50%,
+  87.67% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes right-warning-light {
+  0%,
+  37.67% {
+    opacity: 0;
+  }
+
+  50%,
+  87.67% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes back-arrow-travel {
+  0%,
+  30% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(-32px);
+  }
+
+  51% {
+    transform: translateX(32px);
+  }
+
+  70%,
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes surprise-arrow-spin {
+  from {
+    transform: rotate(180deg);
+  }
+
+  to {
+    transform: rotate(540deg);
+  }
+}
+
+@keyframes brand-ticker-scroll {
+  to {
+    transform: translateX(-312px);
+  }
+}
+
+@keyframes highlight-hazim {
+  0%,
+  24.823% {
+    color: var(--cream);
+  }
+
+  33.333%,
+  91.489% {
+    color: var(--yellow);
+  }
+
+  100% {
+    color: var(--cream);
+  }
+}
+
+@keyframes highlight-maqbool {
+  0%,
+  24.823% {
+    color: var(--yellow);
+  }
+
+  33.333%,
+  58.156% {
+    color: var(--cream);
+  }
+
+  66.667%,
+  100% {
+    color: var(--yellow);
+  }
+}
+
+@keyframes highlight-design {
+  0%,
+  58.156% {
+    color: var(--yellow);
+  }
+
+  66.667%,
+  91.489% {
+    color: var(--cream);
+  }
+
+  100% {
+    color: var(--yellow);
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
